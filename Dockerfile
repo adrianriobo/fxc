@@ -2,7 +2,7 @@ FROM registry.hub.docker.com/library/alpine@sha256:234cb88d3020898631af0ccbbcca9
 
 LABEL org.opencontainers.image.authors="Adrian Riobo <ariobolo@redhat.com>"
 
-RUN apk add --no-cache freerdp freerdp-plugins xvfb 
+RUN apk add --no-cache freerdp freerdp-plugins xvfb xdpyinfo
 
 COPY entrypoint.sh /usr/local/bin
 

@@ -12,6 +12,10 @@ if [[ ${INSECURE} == 'true' ]]; then CONNECT_STRING="${CONNECT_STRING} /cert:tof
 # Create buffered x server
 DISPLAY_SEQ=$RANDOM
 Xvfb :${DISPLAY_SEQ} &
+while ! xdpyinfo -display :${DISPLAY_SEQ} >/dev/null 2>&1; do 
+    sleep 0.5s; 
+    echo "waiting for xvfb"; 
+done
 
 # Run fake rdp within buffered x server
 exec env DISPLAY=:${DISPLAY_SEQ} ${CONNECT_STRING}
