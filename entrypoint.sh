@@ -21,3 +21,4 @@ done
 # Run fake rdp within buffered x server
 # exec env DISPLAY=:${DISPLAY_SEQ} ${CONNECT_STRING} 
 DISPLAY=:${DISPLAY_SEQ} ${CONNECT_STRING} 
+exit 0
