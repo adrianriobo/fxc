@@ -6,7 +6,7 @@ fi
 
 # connection string
 INSECURE="${INSECURE:-"true"}"
-CONNECT_STRING="xfreerdp /v:${RDP_HOST} /u:${RDP_USER} /p:${RDP_PASSWORD} "
+CONNECT_STRING="xfreerdp /v:${RDP_HOST} /u:${RDP_USER} /p:${RDP_PASSWORD} +auto-reconnect "
 if [[ ${INSECURE} == 'true' ]]; then CONNECT_STRING="${CONNECT_STRING} /cert:tofu "; fi
 # CONNECT_STRING="${CONNECT_STRING} || true "
 
