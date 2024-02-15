@@ -10,7 +10,7 @@ on:
 
 jobs:
   build:
-    name: build-frdp
+    name: build-fxc
     runs-on: ubuntu-latest
     steps:
     
