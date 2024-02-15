@@ -1,7 +1,7 @@
-VERSION ?= 0.0.1
+VERSION ?= 1.0.0-dev
 CONTAINER_MANAGER ?= podman
 # Image URL to use all building/pushing image targets
-IMG ?= quay.io/rhqp/frdp:v${VERSION}
+IMG ?= quay.io/rhqp/fxc:v${VERSION}
 
 # Build the container image
 .PHONY: oci-build

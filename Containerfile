@@ -1,4 +1,4 @@
-FROM registry.hub.docker.com/library/alpine:3.18.2
+FROM registry.hub.docker.com/library/alpine:3.19.1
 
 LABEL org.opencontainers.image.authors="Adrian Riobo <ariobolo@redhat.com>"
 
