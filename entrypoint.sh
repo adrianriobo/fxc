@@ -1,14 +1,23 @@
 #!/bin/sh
 
-if [ "${DEBUG:-}" = "true" ]; then
+# Verbosity
+DEBUG="${DEBUG:-"false"}"
+if [[ ${DEBUG} == "true" ]]; then
     set -xuo 
 fi
 
-# connection string
-INSECURE="${INSECURE:-"true"}"
-CONNECT_STRING="xfreerdp /v:${RDP_HOST} /u:${RDP_USER} /p:${RDP_PASSWORD} +auto-reconnect "
-if [[ ${INSECURE} == 'true' ]]; then CONNECT_STRING="${CONNECT_STRING} /cert:tofu "; fi
-# CONNECT_STRING="${CONNECT_STRING} || true "
+# VNC connection string
+vnc() {
+    echo "VNC_USERNAME=${USER} VNC_PASSWORD=${PASSWORD} vncviewer ${HOST}"
+}
+
+# RDP connection string
+rdp() {
+    c="xfreerdp /v:${HOST} /u:${USER} /p:${PASSWORD} +auto-reconnect "
+    INSECURE="${INSECURE:-"true"}"
+    if [[ ${INSECURE} == 'true' ]]; then c="${c} /cert:tofu "; fi
+    echo "${c}"
+}
 
 # Create buffered x server
 DISPLAY_SEQ=$RANDOM
@@ -17,8 +26,25 @@ while ! xdpyinfo -display :${DISPLAY_SEQ} >/dev/null 2>&1; do
     sleep 0.5s; 
     echo "waiting for xvfb"; 
 done
+# Connection string by protocol
+[[ -z "${PROTOCOL+x}" ]] \
+        && echo "PROTOCOL is mandatory" \
+        && exit 1
+CONNECT_STRING=""
+case "${PROTOCOL}" in
+  vnc)
+    CONNECT_STRING=$(vnc)
+    ;;
 
-# Run fake rdp within buffered x server
-# exec env DISPLAY=:${DISPLAY_SEQ} ${CONNECT_STRING} 
-DISPLAY=:${DISPLAY_SEQ} ${CONNECT_STRING} 
+  rdp)
+    CONNECT_STRING=$(rdp)
+    ;;
+  *)
+    echo "${PROTOCOL} is not supported. Valid values are rdp or vnc"
+    exit 1 
+    ;;
+esac
+# Connect
+CONNECT="DISPLAY=:${DISPLAY_SEQ} ${CONNECT_STRING}"
+eval "${CONNECT}"   
 exit 0
