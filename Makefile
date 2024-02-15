@@ -1,4 +1,4 @@
-VERSION ?= 1.0.0-dev
+VERSION ?= 1.0.0
 CONTAINER_MANAGER ?= podman
 # Image URL to use all building/pushing image targets
 IMG ?= quay.io/rhqp/fxc:v${VERSION}
